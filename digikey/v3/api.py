@@ -8,6 +8,7 @@ from digikey.v3.productinformation import (KeywordSearchRequest, KeywordSearchRe
 from digikey.v3.productinformation.rest import ApiException
 from digikey.v3.ordersupport import (OrderStatusResponse, SalesOrderHistoryItem)
 from digikey.v3.batchproductdetails import (BatchProductDetailsRequest, BatchProductDetailsResponse)
+from digikey.v3.barcoding import (ProductBarcodeResponse)
 
 logger = logging.getLogger(__name__)
 
@@ -19,13 +20,15 @@ class DigikeyApiWrapper(object):
         apinames = {
             digikey.v3.productinformation: 'Search',
             digikey.v3.ordersupport: 'OrderDetails',
-            digikey.v3.batchproductdetails: 'BatchSearch'
+            digikey.v3.batchproductdetails: 'BatchSearch',
+            digikey.v3.barcoding: 'Barcoding'
         }
 
         apiclasses = {
             digikey.v3.productinformation: digikey.v3.productinformation.PartSearchApi,
             digikey.v3.ordersupport: digikey.v3.ordersupport.OrderDetailsApi,
-            digikey.v3.batchproductdetails: digikey.v3.batchproductdetails.BatchSearchApi
+            digikey.v3.batchproductdetails: digikey.v3.batchproductdetails.BatchSearchApi,
+            digikey.v3.barcoding: digikey.v3.barcoding.BarcodingApi
         }
 
         apiname = apinames[module]
@@ -179,3 +182,10 @@ def batch_product_details(*args, **kwargs) -> BatchProductDetailsResponse:
         return client.call_api_function(*args, **kwargs)
     else:
         raise DigikeyError('Please provide a valid BatchProductDetailsRequest argument')
+
+def product_barcode(*args, **kwargs) -> ProductBarcodeResponse:
+    client = DigikeyApiWrapper('product_barcode_with_http_info', digikey.v3.barcoding)
+
+    if len(args):
+        logger.info(f'Get Barcode details for: {args[0]}')
+        return client.call_api_function(*args, **kwargs)
