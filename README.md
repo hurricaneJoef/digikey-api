@@ -63,7 +63,7 @@ dkpn = '296-6501-1-ND'
 part = digikey.product_details(dkpn)
 
 # Search for parts
-search_request = KeywordSearchRequest(keywords='CRCW080510K0FKEA', limit=10, offset = 0)
+search_request = KeywordRequest(keywords='CRCW080510K0FKEA', limit=10, offset = 0)
 result = digikey.keyword_search(body=search_request)
 
 # Only if BatchProductDetails endpoint is explicitly enabled
